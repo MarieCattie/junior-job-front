@@ -55,8 +55,47 @@ export const useUserStore = defineStore('user', () => {
   const getPayload = async () => {
     await fetchUser();
     const tokenParts = access_token.value.split('.');
+    if (tokenParts.length !== 3) {
+      throw new Error('Invalid JWT format');
+    }
+  
+    const payload = tokenParts[1];
+      const decodedPayload = atob(payload);
+      console.log(decodedPayload)
+      try {
+          payload.value = JSON.parse(decodedPayload);
+      } catch (error: any) {
+          console.error('Error decoding JWT payload:', error.message);
+          throw new Error('Error decoding JWT payload');
+      }
+  }
+  const setRole = async(role: string) => {
+    try {
+        await api.roles.change({role: role})
+        await refresh()
+        await fetchRoles()
+    }
+    catch(error: any) {
+        console.log(error)
+    } 
   }
 
-  return {user, access_token, refresh_token, logout, fetchUser, refresh, setToken, setUser}
+  const fetchRoles = async () => {
+    try {
+        const response = await api.roles.my()
+        roles.value = response.data
+        await getPayload()
+    }
+    catch(error: any) {
+        console.log(error)
+    }
+  }
+
+
+  const currentRoleId = () => {
+    return roles.value[payload.value.role].uuid
+  }
+
+  return {user, access_token, refresh_token, logout, fetchUser, refresh, setToken, setUser, getPayload, currentRoleId, fetchRoles, setRole, payload, roles}
 
 });
