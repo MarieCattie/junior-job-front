@@ -1,12 +1,9 @@
 <script setup>
 import { ref } from 'vue';
 import api from '~/api';
-import { useUserStore } from '~/store/user';
 import { useRouter } from 'vue-router';
-if (process.client) {
     const router = useRouter();
     const userStore = useUserStore();
-}
 
 </script>
 <template>

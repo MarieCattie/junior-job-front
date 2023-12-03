@@ -5,7 +5,6 @@ import cardIcon from "@/assets/images/icons/add_card.svg";
 import starIcon from "@/assets/images/icons/star.svg";
 import noteIcon from "@/assets/images/icons/note.svg";
 import settingIcon from "@/assets/images/icons/settings.svg";
-import { useUserStore } from "~/store/user";
 import api from "~/api";
 import { useRouter } from "vue-router";
 

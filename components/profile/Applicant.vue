@@ -1,14 +1,11 @@
 <script setup>
 import { ref, defineProps, computed } from 'vue';
 import api from '~/api';
-import { useUserStore } from '~/store/user';
 import { useRouter } from 'vue-router';
 
 
-if (process.client) {
     const router = useRouter();
     const userStore = useUserStore();
-}
 
 const props = defineProps({
   user: {
@@ -22,7 +19,7 @@ const userName = computed(() => {
 })
 
 const userAge = computed(() => {
-  const birthdate = new Date(props.user.userData.birthday);
+  const birthdate = new Date(props.user?.userData.birthday);
   const today = new Date();
 
   let age = today.getFullYear() - birthdate.getFullYear();

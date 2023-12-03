@@ -12,4 +12,13 @@ export default defineNuxtConfig({
   css: [
     '~/assets/css/main.css',
   ],
+  router: {
+    routes: [
+      {
+        path: '/profile',
+        component: '~/pages/profile.vue', // Путь к вашему компоненту
+      },
+      // Другие маршруты...
+    ],
+  },
 })

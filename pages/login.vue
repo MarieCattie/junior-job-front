@@ -1,22 +1,28 @@
 <template>
+  <template v-if="loading">
+    <UILoader />
+  </template>
+  <template v-else>
     <div class="container-centered">
-        <h1 class="user-title">Вход</h1>
-        <form @submit.prevent="signIn" class="mt-5">
-            <input v-model="form.email" placeholder="Email" type="text" class="field mt-3">
-            <input v-model="form.password" placeholder="Пароль" type="password" class="field mt-3">
-            <button type="submit" class="btn w-full mt-3">Войти</button>
-            <template v-if="formErrors">
-              <div class="py-4">
-                <p class="error-message" v-for="(formError, index) in formErrors" :key="index">
-                  {{ formError }}
-                </p>
-              </div>
-            </template>
-            <div class="mt-3">
-                <p class="ask-text">Нет аккаунта? <NuxtLink to="/register-welcome" class="ask-text__link">Зарегистрироваться</NuxtLink></p>
+      <h1 class="user-title">Вход</h1>
+      <form @submit.prevent="signIn" class="mt-5">
+          <input v-model="form.email" placeholder="Email" type="text" class="field mt-3">
+          <input v-model="form.password" placeholder="Пароль" type="password" class="field mt-3">
+          <button type="submit" class="btn w-full mt-3">Войти</button>
+          <template v-if="formErrors">
+            <div class="py-4">
+              <p class="error-message" v-for="(formError, index) in formErrors" :key="index">
+                {{ formError }}
+              </p>
             </div>
-        </form>
-    </div>
+          </template>
+          <div class="mt-3">
+              <p class="ask-text">Нет аккаунта? <NuxtLink to="/register-welcome" class="ask-text__link">Зарегистрироваться</NuxtLink></p>
+          </div>
+      </form>
+  </div>
+  </template>
+    
 </template>
 
 <script setup>
@@ -35,7 +41,7 @@ const form = ref({
 
 const formErrors = ref({})
 
-
+const loading = ref(true)
 
 const signIn = async () => {
     const response = api.auth.login(form.value);
@@ -71,6 +77,10 @@ const signIn = async () => {
     
 
 };
+
+onMounted(() => {
+  loading.value = false
+})
 </script>
 
 <style lang="scss" scoped>
